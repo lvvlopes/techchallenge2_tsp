@@ -177,6 +177,83 @@ def sort_population(population: List[List[Tuple[float, float]]], fitness: List[f
 
     return sorted_population, sorted_fitness
 
+# minha funcao de vizinho mais proximo para gerar uma solucao inicial melhor do que a aleatoria.
+def nearest_neighbour_tour(cities):
+    unvisited = cities[:]
+    current = random.choice(unvisited)
+    tour = [current]
+    unvisited.remove(current)
+
+    while unvisited:
+        next_city = min(unvisited, key=lambda c: (c[0]-current[0])**2 + (c[1]-current[1])**2)
+        tour.append(next_city)
+        unvisited.remove(next_city)
+        current = next_city
+
+    return tour
+
+
+def generate_nearest_neighbour_population(cities, size):
+    return [nearest_neighbour_tour(cities[:]) for _ in range(size)]
+
+def convex_hull(points):
+    points = sorted(points)
+
+    def cross(o, a, b):
+        return (a[0]-o[0])*(b[1]-o[1]) - (a[1]-o[1])*(b[0]-o[0])
+
+    lower = []
+    for p in points:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+        lower.append(p)
+
+    upper = []
+    for p in reversed(points):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+        upper.append(p)
+
+    return lower[:-1] + upper[:-1]
+
+
+# minha funcao de hull para gerar uma solucao inicial melhor do que a aleatoria.
+def convex_hull_tour(cities):
+    hull = convex_hull(cities[:])
+    remaining = [c for c in cities if c not in hull]
+    tour = hull[:]
+
+    while remaining:
+        city = remaining.pop()
+        best_pos = 0
+        best_increase = float("inf")
+
+        for i in range(len(tour)):
+            a = tour[i]
+            b = tour[(i+1) % len(tour)]
+
+            increase = (
+                ((a[0]-city[0])**2 + (a[1]-city[1])**2) ** 0.5 +
+                ((city[0]-b[0])**2 + (city[1]-b[1])**2) ** 0.5 -
+                ((a[0]-b[0])**2 + (a[1]-b[1])**2) ** 0.5
+            )
+
+            if increase < best_increase:
+                best_increase = increase
+                best_pos = i + 1
+
+        tour.insert(best_pos, city)
+
+    return tour
+
+
+def generate_convex_hull_population(cities, size):
+    return [convex_hull_tour(cities[:]) for _ in range(size)]
+
+
+
+
+
 
 if __name__ == '__main__':
     N_CITIES = 10
