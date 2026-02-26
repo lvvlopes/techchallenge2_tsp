@@ -24,7 +24,11 @@ python tps.py
 ```
 > Press the 'q' key to quit the program.
 
-
+### VRP com restrições realistas (Projeto 2 - item 1.2)
+```bash
+python demo_vrp_constraints.py
+```
+Este demo inclui restrições de prioridade de entrega, capacidade de veículo, autonomia máxima e múltiplos veículos.
 
 ## Overview
 
