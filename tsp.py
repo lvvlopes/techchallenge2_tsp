@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 import random
 import itertools
-from genetic_algorithm import generate_convex_hull_population, generate_nearest_neighbour_population, mutate, order_crossover, generate_random_population, calculate_fitness, sort_population, default_problems
+from genetic_algorithm import generate_convex_hull_population, generate_nearest_neighbour_population, mutate, order_crossover, calculate_fitness, sort_population, default_problems, pmx_crossover
 from draw_functions import draw_paths, draw_plot, draw_cities
 import sys
 import numpy as np
@@ -163,7 +163,7 @@ while running:
 
 
         # child1 = order_crossover(parent1, parent2)
-        child1 = order_crossover(parent1, parent1)
+        child1 = pmx_crossover(parent1, parent2)
 
         child1 = mutate(child1, MUTATION_PROBABILITY)
 
