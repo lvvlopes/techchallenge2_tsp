@@ -6,6 +6,10 @@ from typing import Callable, Dict, List, Sequence, Tuple
 City = Tuple[float, float]
 Route = List[City]
 VehicleRoutes = List[List[int]]
+from typing import Callable, Dict, List, Tuple
+
+City = Tuple[float, float]
+Route = List[City]
 
 
 default_problems = {
