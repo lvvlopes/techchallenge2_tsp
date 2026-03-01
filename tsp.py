@@ -106,13 +106,17 @@ generation_counter = itertools.count(start=1)  # Start the counter at 1
 
 # Create Initial Population
 
-#n_random = POPULATION_SIZE #// 3
-n_nn = POPULATION_SIZE #// 3
-n_ch = POPULATION_SIZE #- n_random - n_nn
+n_random = int(POPULATION_SIZE * 0.3) #// 3
+n_nn = int(POPULATION_SIZE * 0.3) #// 3
+n_ch = POPULATION_SIZE - n_random - n_nn
 
+# 30/30/40 pra balancear qualidade + diversidade
 population = []
-#population.extend(generate_random_population(cities_locations, n_random)) #250794.16 #12832.1
-#population.extend(generate_nearest_neighbour_population(cities_locations, n_nn)) #86328.23 #5355.24
+# diversidade alta
+population.extend(generate_random_population(cities_locations, n_random)) #250794.16 #12832.1
+# boas soluções locais
+population.extend(generate_nearest_neighbour_population(cities_locations, n_nn)) #86328.23 #5355.24
+# melhores soluções iniciais
 population.extend(generate_convex_hull_population(cities_locations, n_ch)) # 79671.14 #4995.2
 
 # fixa cidade inicial para o TSP

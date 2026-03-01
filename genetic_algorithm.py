@@ -270,20 +270,22 @@ def calculate_fitness(route, city_demand, city_priority, start_city,
         total_load += city_demand[current]
 
         # prioridade (penaliza atraso)
-        penalty_priority += i * city_priority[current] * 3
+        penalty_priority += i * city_priority[current] * 1
 
     # capacidade
-    penalty_capacity = 0
     if total_load > vehicle_capacity:
-        penalty_capacity = (total_load - vehicle_capacity) * 100
+        penalty_capacity = (total_load - vehicle_capacity) * 20
+    else:
+        penalty_capacity = 0
 
     # autonomia
-    penalty_distance = 0
     if total_distance > max_distance:
-        penalty_distance = (total_distance - max_distance) * 30
+        penalty_distance = (total_distance - max_distance) * 5
+    else:
+        penalty_distance = 0
 
     # debug temporário para entender os componentes da função de fitness
-    print(f"Dist: {total_distance:.2f} | Pri: {penalty_priority:.2f} | Cap: {penalty_capacity:.2f} | Auto: {penalty_distance:.2f}")
+    # print(f"Dist: {total_distance:.2f} | Pri: {penalty_priority:.2f} | Cap: {penalty_capacity:.2f} | Auto: {penalty_distance:.2f}")
     
     # penaliza se a cidade inicial não for a cidade de partida definida
     penalty_start = 0
